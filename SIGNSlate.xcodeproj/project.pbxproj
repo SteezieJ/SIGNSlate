@@ -17,6 +17,8 @@
 		DA0D2D8D28AF9DAB009423AF /* SIGNSlateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0D2D8C28AF9DAB009423AF /* SIGNSlateTests.swift */; };
 		DA0D2D9728AF9DAB009423AF /* SIGNSlateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0D2D9628AF9DAB009423AF /* SIGNSlateUITests.swift */; };
 		DA0D2D9928AF9DAB009423AF /* SIGNSlateUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0D2D9828AF9DAB009423AF /* SIGNSlateUITestsLaunchTests.swift */; };
+		DA0D2DA928B26D64009423AF /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0D2DA828B26D64009423AF /* MenuViewController.swift */; };
+		DA0D2DAB28B26DA3009423AF /* LatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0D2DAA28B26DA3009423AF /* LatingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,8 @@
 		DA0D2D9228AF9DAB009423AF /* SIGNSlateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SIGNSlateUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0D2D9628AF9DAB009423AF /* SIGNSlateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIGNSlateUITests.swift; sourceTree = "<group>"; };
 		DA0D2D9828AF9DAB009423AF /* SIGNSlateUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIGNSlateUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		DA0D2DA828B26D64009423AF /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MenuViewController.swift; path = "Design Files/MenuViewController.swift"; sourceTree = "<group>"; };
+		DA0D2DAA28B26DA3009423AF /* LatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,11 +108,11 @@
 				DA0D2D7228AF9DA6009423AF /* AppDelegate.swift */,
 				DA0D2D7428AF9DA6009423AF /* SceneDelegate.swift */,
 				DA0D2D7628AF9DA6009423AF /* ViewController.swift */,
-				DA0D2D7828AF9DA6009423AF /* Main.storyboard */,
-				DA0D2D7E28AF9DAA009423AF /* Assets.xcassets */,
-				DA0D2D8028AF9DAA009423AF /* LaunchScreen.storyboard */,
-				DA0D2D8328AF9DAA009423AF /* Info.plist */,
+				DA0D2DA828B26D64009423AF /* MenuViewController.swift */,
+				DA0D2DAA28B26DA3009423AF /* LatingViewController.swift */,
+				DA0D2DA728B2493D009423AF /* Design Files */,
 				DA0D2D7B28AF9DA6009423AF /* SIGNSlate.xcdatamodeld */,
+				DA0D2D8328AF9DAA009423AF /* Info.plist */,
 			);
 			path = SIGNSlate;
 			sourceTree = "<group>";
@@ -128,6 +132,16 @@
 				DA0D2D9828AF9DAB009423AF /* SIGNSlateUITestsLaunchTests.swift */,
 			);
 			path = SIGNSlateUITests;
+			sourceTree = "<group>";
+		};
+		DA0D2DA728B2493D009423AF /* Design Files */ = {
+			isa = PBXGroup;
+			children = (
+				DA0D2D7828AF9DA6009423AF /* Main.storyboard */,
+				DA0D2D7E28AF9DAA009423AF /* Assets.xcassets */,
+				DA0D2D8028AF9DAA009423AF /* LaunchScreen.storyboard */,
+			);
+			path = "Design Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,6 +276,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA0D2D7D28AF9DA6009423AF /* SIGNSlate.xcdatamodeld in Sources */,
+				DA0D2DAB28B26DA3009423AF /* LatingViewController.swift in Sources */,
+				DA0D2DA928B26D64009423AF /* MenuViewController.swift in Sources */,
 				DA0D2D7728AF9DA6009423AF /* ViewController.swift in Sources */,
 				DA0D2D7328AF9DA6009423AF /* AppDelegate.swift in Sources */,
 				DA0D2D7528AF9DA6009423AF /* SceneDelegate.swift in Sources */,
@@ -441,11 +457,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VG4QFDQJ9M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SIGNSlate/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs your camera to do the things";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -468,11 +487,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = VG4QFDQJ9M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SIGNSlate/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app needs your camera to do the things";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
