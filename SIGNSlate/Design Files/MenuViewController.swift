@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+var mainSafeAreaInsets: UIEdgeInsets?
 class MenuViewController: UIViewController {
     
     
@@ -17,6 +17,7 @@ class MenuViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        mainSafeAreaInsets = self.additionalSafeAreaInsets
 //        title = "Welcome screen"
 
         // Do any additional setup after loading the view.

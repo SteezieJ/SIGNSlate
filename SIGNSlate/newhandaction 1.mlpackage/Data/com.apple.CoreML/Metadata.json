@@ -1,0 +1,13 @@
+{
+  "MLModelVersionStringKey" : "--",
+  "MLModelDescriptionKey" : "--",
+  "MLModelCreatorDefinedKey" : {
+    "Prediction Window Size" : "60",
+    "com.apple.createml.app.tag" : "78.8",
+    "com.apple.coreml.model.preview.type" : "handActionClassifier",
+    "com.apple.createml.app.version" : "3.0",
+    "Target Frame Rate" : "30.0"
+  },
+  "MLModelAuthorKey" : "Stephanie Joubert",
+  "MLModelLicenseKey" : "--"
+}

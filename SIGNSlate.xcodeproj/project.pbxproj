@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1612FC9F28D8480A000FE8C1 /* MyCustomARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1612FC9D28D84809000FE8C1 /* MyCustomARView.swift */; };
+		1612FCA028D8480A000FE8C1 /* MyCustomARView+ML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1612FC9E28D84809000FE8C1 /* MyCustomARView+ML.swift */; };
 		DA0D2D7328AF9DA6009423AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0D2D7228AF9DA6009423AF /* AppDelegate.swift */; };
 		DA0D2D7528AF9DA6009423AF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0D2D7428AF9DA6009423AF /* SceneDelegate.swift */; };
 		DA0D2D7728AF9DA6009423AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0D2D7628AF9DA6009423AF /* ViewController.swift */; };
@@ -19,6 +21,9 @@
 		DA0D2D9928AF9DAB009423AF /* SIGNSlateUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0D2D9828AF9DAB009423AF /* SIGNSlateUITestsLaunchTests.swift */; };
 		DA0D2DA928B26D64009423AF /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0D2DA828B26D64009423AF /* MenuViewController.swift */; };
 		DA0D2DAB28B26DA3009423AF /* LatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0D2DAA28B26DA3009423AF /* LatingViewController.swift */; };
+		DA92D68028DF26F900CF7392 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA92D67F28DF26F900CF7392 /* ResultsViewController.swift */; };
+		DAD7C2FD28DC72AB00429DDA /* newhandaction 1.mlpackage in Sources */ = {isa = PBXBuildFile; fileRef = DAD7C2FC28DC72AB00429DDA /* newhandaction 1.mlpackage */; };
+		DAD7C2FF28DC72C800429DDA /* handsonly.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = DAD7C2FE28DC72C800429DDA /* handsonly.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1612FC9D28D84809000FE8C1 /* MyCustomARView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCustomARView.swift; sourceTree = "<group>"; };
+		1612FC9E28D84809000FE8C1 /* MyCustomARView+ML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MyCustomARView+ML.swift"; sourceTree = "<group>"; };
 		DA0D2D6F28AF9DA6009423AF /* SIGNSlate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SIGNSlate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0D2D7228AF9DA6009423AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DA0D2D7428AF9DA6009423AF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -55,6 +62,9 @@
 		DA0D2D9828AF9DAB009423AF /* SIGNSlateUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIGNSlateUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		DA0D2DA828B26D64009423AF /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MenuViewController.swift; path = "Design Files/MenuViewController.swift"; sourceTree = "<group>"; };
 		DA0D2DAA28B26DA3009423AF /* LatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatingViewController.swift; sourceTree = "<group>"; };
+		DA92D67F28DF26F900CF7392 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
+		DAD7C2FC28DC72AB00429DDA /* newhandaction 1.mlpackage */ = {isa = PBXFileReference; lastKnownFileType = folder.mlpackage; path = "newhandaction 1.mlpackage"; sourceTree = "<group>"; };
+		DAD7C2FE28DC72C800429DDA /* handsonly.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = handsonly.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +92,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1612FC9C28D84802000FE8C1 /* ARHelper */ = {
+			isa = PBXGroup;
+			children = (
+				1612FC9D28D84809000FE8C1 /* MyCustomARView.swift */,
+				1612FC9E28D84809000FE8C1 /* MyCustomARView+ML.swift */,
+			);
+			path = ARHelper;
+			sourceTree = "<group>";
+		};
 		DA0D2D6628AF9DA6009423AF = {
 			isa = PBXGroup;
 			children = (
@@ -110,9 +129,13 @@
 				DA0D2D7628AF9DA6009423AF /* ViewController.swift */,
 				DA0D2DA828B26D64009423AF /* MenuViewController.swift */,
 				DA0D2DAA28B26DA3009423AF /* LatingViewController.swift */,
+				DA92D67F28DF26F900CF7392 /* ResultsViewController.swift */,
+				1612FC9C28D84802000FE8C1 /* ARHelper */,
 				DA0D2DA728B2493D009423AF /* Design Files */,
 				DA0D2D7B28AF9DA6009423AF /* SIGNSlate.xcdatamodeld */,
 				DA0D2D8328AF9DAA009423AF /* Info.plist */,
+				DAD7C2FC28DC72AB00429DDA /* newhandaction 1.mlpackage */,
+				DAD7C2FE28DC72C800429DDA /* handsonly.mlmodel */,
 			);
 			path = SIGNSlate;
 			sourceTree = "<group>";
@@ -275,10 +298,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA92D68028DF26F900CF7392 /* ResultsViewController.swift in Sources */,
+				DAD7C2FD28DC72AB00429DDA /* newhandaction 1.mlpackage in Sources */,
+				1612FCA028D8480A000FE8C1 /* MyCustomARView+ML.swift in Sources */,
+				DAD7C2FF28DC72C800429DDA /* handsonly.mlmodel in Sources */,
 				DA0D2D7D28AF9DA6009423AF /* SIGNSlate.xcdatamodeld in Sources */,
 				DA0D2DAB28B26DA3009423AF /* LatingViewController.swift in Sources */,
 				DA0D2DA928B26D64009423AF /* MenuViewController.swift in Sources */,
 				DA0D2D7728AF9DA6009423AF /* ViewController.swift in Sources */,
+				1612FC9F28D8480A000FE8C1 /* MyCustomARView.swift in Sources */,
 				DA0D2D7328AF9DA6009423AF /* AppDelegate.swift in Sources */,
 				DA0D2D7528AF9DA6009423AF /* SceneDelegate.swift in Sources */,
 			);
@@ -386,7 +414,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -440,7 +468,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -464,6 +492,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -494,6 +523,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

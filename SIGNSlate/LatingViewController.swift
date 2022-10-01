@@ -8,12 +8,23 @@
 import UIKit
 import AVKit
 import Vision
+import ARKit
+import RealityKit
 
 class LatingViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     
-    @IBOutlet weak var UICameraView: UIImageView!
+   // @IBOutlet weak var UICameraView: UIImageView!
     @IBOutlet weak var displayText: UILabel!
-    
+    @IBOutlet var cameraView: MyCustomARView!
+    {
+        didSet{
+            cameraView.delegate = self
+        }
+    }
+    var arrOfWords = [String]()
+    var arrOfWords1 = [String]()
+    var lastPredicted:String?
+    @IBOutlet var currentWordText: UILabel!
     
     //    override func viewDidLoad() {
     //        super.viewDidLoad()
@@ -45,12 +56,15 @@ class LatingViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var detectionOverlayLayer: CALayer?
     var detectedFaceRectangleShapeLayer: CAShapeLayer?
     var detectedFaceLandmarksShapeLayer: CAShapeLayer?
+    
+    var detectedHandLandmarkShapeLayer: CAShapeLayer?
 
     
     
     // Vision requests
     private var detectionRequests: [VNDetectFaceRectanglesRequest]?
     private var trackingRequests: [VNTrackObjectRequest]?
+    private var detectionHandsRequests: [VNHumanHandPoseObservation]?
     
     lazy var sequenceRequestHandler = VNSequenceRequestHandler()
     
@@ -190,13 +204,13 @@ class LatingViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         videoPreviewLayer.backgroundColor = UIColor.black.cgColor
         videoPreviewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
         
-        if let previewRootLayer = self.UICameraView?.layer {
+        /*if let previewRootLayer = self.UICameraView?.layer {
             self.rootLayer = previewRootLayer
             
             previewRootLayer.masksToBounds = true
             videoPreviewLayer.frame = previewRootLayer.bounds
             previewRootLayer.addSublayer(videoPreviewLayer)
-        }
+        }*/
     }
     
     // Removes infrastructure for AVCapture as part of cleanup.
@@ -248,6 +262,11 @@ class LatingViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         return exifOrientationForDeviceOrientation(UIDevice.current.orientation)
     }
     
+    
+    
+    
+    
+    
     // MARK: Performing Vision Requests
     
     /// - Tag: WriteCompletionHandler
@@ -255,6 +274,7 @@ class LatingViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         //self.trackingRequests = []
         var requests = [VNTrackObjectRequest]()
+//        var requests2 = [VNImageRequestHandler]()
         
         let faceDetectionRequest = VNDetectFaceRectanglesRequest(completionHandler: { (request, error) in
             
@@ -276,73 +296,77 @@ class LatingViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
         })
         
+
         // Start with detection.  Find face, then track it.
         self.detectionRequests = [faceDetectionRequest]
         
         self.sequenceRequestHandler = VNSequenceRequestHandler()
         
-        self.setupVisionDrawingLayers()
+        //self.setupVisionDrawingLayers()
     }
+    
+    
+    
     
     // MARK: Drawing Vision Observations
     
-    fileprivate func setupVisionDrawingLayers() {
-        let captureDeviceResolution = self.captureDeviceResolution
-        
-        let captureDeviceBounds = CGRect(x: 0,
-                                         y: 0,
-                                         width: captureDeviceResolution.width,
-                                         height: captureDeviceResolution.height)
-        
-        let captureDeviceBoundsCenterPoint = CGPoint(x: captureDeviceBounds.midX,
-                                                     y: captureDeviceBounds.midY)
-        
-        let normalizedCenterPoint = CGPoint(x: 0.5, y: 0.5)
-        
-        guard let rootLayer = self.rootLayer else {
-            self.presentErrorAlert(message: "view was not property initialized")
-            return
-        }
-        
-        let overlayLayer = CALayer()
-        overlayLayer.name = "DetectionOverlay"
-        overlayLayer.masksToBounds = true
-        overlayLayer.anchorPoint = normalizedCenterPoint
-        overlayLayer.bounds = captureDeviceBounds
-        overlayLayer.position = CGPoint(x: rootLayer.bounds.midX, y: rootLayer.bounds.midY)
-        
-        let faceRectangleShapeLayer = CAShapeLayer()
-        faceRectangleShapeLayer.name = "RectangleOutlineLayer"
-        faceRectangleShapeLayer.bounds = captureDeviceBounds
-        faceRectangleShapeLayer.anchorPoint = normalizedCenterPoint
-        faceRectangleShapeLayer.position = captureDeviceBoundsCenterPoint
-        faceRectangleShapeLayer.fillColor = nil
-        faceRectangleShapeLayer.strokeColor = UIColor.green.withAlphaComponent(0.7).cgColor
-        faceRectangleShapeLayer.lineWidth = 5
-        faceRectangleShapeLayer.shadowOpacity = 0.7
-        faceRectangleShapeLayer.shadowRadius = 5
-        
-        let faceLandmarksShapeLayer = CAShapeLayer()
-        faceLandmarksShapeLayer.name = "FaceLandmarksLayer"
-        faceLandmarksShapeLayer.bounds = captureDeviceBounds
-        faceLandmarksShapeLayer.anchorPoint = normalizedCenterPoint
-        faceLandmarksShapeLayer.position = captureDeviceBoundsCenterPoint
-        faceLandmarksShapeLayer.fillColor = nil
-        faceLandmarksShapeLayer.strokeColor = UIColor.yellow.withAlphaComponent(0.7).cgColor
-        faceLandmarksShapeLayer.lineWidth = 3
-        faceLandmarksShapeLayer.shadowOpacity = 0.7
-        faceLandmarksShapeLayer.shadowRadius = 5
-        
-        overlayLayer.addSublayer(faceRectangleShapeLayer)
-        faceRectangleShapeLayer.addSublayer(faceLandmarksShapeLayer)
-        rootLayer.addSublayer(overlayLayer)
-        
-        self.detectionOverlayLayer = overlayLayer
-        self.detectedFaceRectangleShapeLayer = faceRectangleShapeLayer
-        self.detectedFaceLandmarksShapeLayer = faceLandmarksShapeLayer
-        
-        self.updateLayerGeometry()
-    }
+//    fileprivate func setupVisionDrawingLayers() {
+//        let captureDeviceResolution = self.captureDeviceResolution
+//
+//        let captureDeviceBounds = CGRect(x: 0,
+//                                         y: 0,
+//                                         width: captureDeviceResolution.width,
+//                                         height: captureDeviceResolution.height)
+//
+//        let captureDeviceBoundsCenterPoint = CGPoint(x: captureDeviceBounds.midX,
+//                                                     y: captureDeviceBounds.midY)
+//
+//        let normalizedCenterPoint = CGPoint(x: 0.5, y: 0.5)
+//
+//        guard let rootLayer = self.rootLayer else {
+//            self.presentErrorAlert(message: "view was not property initialized")
+//            return
+//        }
+//
+//        let overlayLayer = CALayer()
+//        overlayLayer.name = "DetectionOverlay"
+//        overlayLayer.masksToBounds = true
+//        overlayLayer.anchorPoint = normalizedCenterPoint
+//        overlayLayer.bounds = captureDeviceBounds
+//        overlayLayer.position = CGPoint(x: rootLayer.bounds.midX, y: rootLayer.bounds.midY)
+//
+//        let faceRectangleShapeLayer = CAShapeLayer()
+//        faceRectangleShapeLayer.name = "RectangleOutlineLayer"
+//        faceRectangleShapeLayer.bounds = captureDeviceBounds
+//        faceRectangleShapeLayer.anchorPoint = normalizedCenterPoint
+//        faceRectangleShapeLayer.position = captureDeviceBoundsCenterPoint
+//        faceRectangleShapeLayer.fillColor = nil
+//        faceRectangleShapeLayer.strokeColor = UIColor.green.withAlphaComponent(0.7).cgColor
+//        faceRectangleShapeLayer.lineWidth = 5
+//        faceRectangleShapeLayer.shadowOpacity = 0.7
+//        faceRectangleShapeLayer.shadowRadius = 5
+//
+//        let faceLandmarksShapeLayer = CAShapeLayer()
+//        faceLandmarksShapeLayer.name = "FaceLandmarksLayer"
+//        faceLandmarksShapeLayer.bounds = captureDeviceBounds
+//        faceLandmarksShapeLayer.anchorPoint = normalizedCenterPoint
+//        faceLandmarksShapeLayer.position = captureDeviceBoundsCenterPoint
+//        faceLandmarksShapeLayer.fillColor = nil
+//        faceLandmarksShapeLayer.strokeColor = UIColor.yellow.withAlphaComponent(0.7).cgColor
+//        faceLandmarksShapeLayer.lineWidth = 3
+//        faceLandmarksShapeLayer.shadowOpacity = 0.7
+//        faceLandmarksShapeLayer.shadowRadius = 5
+//
+//        overlayLayer.addSublayer(faceRectangleShapeLayer)
+//        faceRectangleShapeLayer.addSublayer(faceLandmarksShapeLayer)
+//        rootLayer.addSublayer(overlayLayer)
+//
+//        self.detectionOverlayLayer = overlayLayer
+//        self.detectedFaceRectangleShapeLayer = faceRectangleShapeLayer
+//        self.detectedFaceLandmarksShapeLayer = faceLandmarksShapeLayer
+//
+//        self.updateLayerGeometry()
+//    }
     
     fileprivate func updateLayerGeometry() {
         guard let overlayLayer = self.detectionOverlayLayer,
@@ -619,6 +643,7 @@ class LatingViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     @IBAction func stopPressed(_ sender: Any) {
         print("Stop interpreting...")
+        arrOfWords1 = arrOfWords
     }
     
     
@@ -631,4 +656,22 @@ class LatingViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     
     
+}
+extension LatingViewController: MyCustomARViewDelegate {
+    func didReturnedResponse(with confidence: Double, word: String) {
+        //if (lastPredicted ?? "") != word {
+            lastPredicted = word
+            arrOfWords.append(word)
+            
+            self.displayText.text = arrOfWords.joined(separator: " ")
+            self.currentWordText.text = word//String.init(format: "%0.1f", confidence)
+            if arrOfWords.count == 10 {
+                arrOfWords.removeAll()
+            }
+       /* } else {
+            print("Repeated Prediction Skipping --" + word)
+            self.currentWordText.text = word
+        }*/
+        
+    }
 }

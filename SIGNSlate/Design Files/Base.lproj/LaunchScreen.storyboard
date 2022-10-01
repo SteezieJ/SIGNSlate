@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="nudes" translatesAutoresizingMaskIntoConstraints="NO" id="kDH-rS-gv7">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="screengreen" translatesAutoresizingMaskIntoConstraints="NO" id="kDH-rS-gv7">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="kDH-rS-gv7" secondAttribute="height" multiplier="207:448" id="FBU-4f-doB"/>
@@ -90,7 +90,7 @@
     </scenes>
     <resources>
         <image name="hands2" width="1024" height="724"/>
-        <image name="nudes" width="1052" height="1880"/>
+        <image name="screengreen" width="1054" height="1814"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
