@@ -85,7 +85,7 @@ class LatingViewController: UIViewController {
     lazy var sequenceRequestHandler = VNSequenceRequestHandler()
     
     
-    //MARK: -  Sanjay: AVProperties
+    //MARK: AVProperties
     var captureSession: AVCaptureSession?
     let videoDataOutputQueue = DispatchQueue(
       label: "CameraFeedOutput",
@@ -380,69 +380,7 @@ class LatingViewController: UIViewController {
         
         //self.setupVisionDrawingLayers()
     }
-    
-    
-    
-    
-    // MARK: Drawing Vision Observations
-    
-//    fileprivate func setupVisionDrawingLayers() {
-//        let captureDeviceResolution = self.captureDeviceResolution
-//
-//        let captureDeviceBounds = CGRect(x: 0,
-//                                         y: 0,
-//                                         width: captureDeviceResolution.width,
-//                                         height: captureDeviceResolution.height)
-//
-//        let captureDeviceBoundsCenterPoint = CGPoint(x: captureDeviceBounds.midX,
-//                                                     y: captureDeviceBounds.midY)
-//
-//        let normalizedCenterPoint = CGPoint(x: 0.5, y: 0.5)
-//
-//        guard let rootLayer = self.rootLayer else {
-//            self.presentErrorAlert(message: "view was not property initialized")
-//            return
-//        }
-//
-//        let overlayLayer = CALayer()
-//        overlayLayer.name = "DetectionOverlay"
-//        overlayLayer.masksToBounds = true
-//        overlayLayer.anchorPoint = normalizedCenterPoint
-//        overlayLayer.bounds = captureDeviceBounds
-//        overlayLayer.position = CGPoint(x: rootLayer.bounds.midX, y: rootLayer.bounds.midY)
-//
-//        let faceRectangleShapeLayer = CAShapeLayer()
-//        faceRectangleShapeLayer.name = "RectangleOutlineLayer"
-//        faceRectangleShapeLayer.bounds = captureDeviceBounds
-//        faceRectangleShapeLayer.anchorPoint = normalizedCenterPoint
-//        faceRectangleShapeLayer.position = captureDeviceBoundsCenterPoint
-//        faceRectangleShapeLayer.fillColor = nil
-//        faceRectangleShapeLayer.strokeColor = UIColor.green.withAlphaComponent(0.7).cgColor
-//        faceRectangleShapeLayer.lineWidth = 5
-//        faceRectangleShapeLayer.shadowOpacity = 0.7
-//        faceRectangleShapeLayer.shadowRadius = 5
-//
-//        let faceLandmarksShapeLayer = CAShapeLayer()
-//        faceLandmarksShapeLayer.name = "FaceLandmarksLayer"
-//        faceLandmarksShapeLayer.bounds = captureDeviceBounds
-//        faceLandmarksShapeLayer.anchorPoint = normalizedCenterPoint
-//        faceLandmarksShapeLayer.position = captureDeviceBoundsCenterPoint
-//        faceLandmarksShapeLayer.fillColor = nil
-//        faceLandmarksShapeLayer.strokeColor = UIColor.yellow.withAlphaComponent(0.7).cgColor
-//        faceLandmarksShapeLayer.lineWidth = 3
-//        faceLandmarksShapeLayer.shadowOpacity = 0.7
-//        faceLandmarksShapeLayer.shadowRadius = 5
-//
-//        overlayLayer.addSublayer(faceRectangleShapeLayer)
-//        faceRectangleShapeLayer.addSublayer(faceLandmarksShapeLayer)
-//        rootLayer.addSublayer(overlayLayer)
-//
-//        self.detectionOverlayLayer = overlayLayer
-//        self.detectedFaceRectangleShapeLayer = faceRectangleShapeLayer
-//        self.detectedFaceLandmarksShapeLayer = faceLandmarksShapeLayer
-//
-//        self.updateLayerGeometry()
-//    }
+
     
     fileprivate func updateLayerGeometry() {
         guard let overlayLayer = self.detectionOverlayLayer,
@@ -704,34 +642,38 @@ class LatingViewController: UIViewController {
     
     
     //    }
+
     
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    var delegate: SendResultsDelegate?
     
     
     @IBAction func stopPressed(_ sender: Any) {
         print("Stop interpreting...")
+//        delegate?.SendHandResults(WordsArray: self.arrOfWords)
+//        print("del", self.arrOfWords.joined())
+//        guard let vc = storyboard?.instantiateViewController(withIdentifier: "Resultsboard") as? ResultsViewController else {
+//            print("unable to get storyboard")
+//            return
+//        }
+//        present(vc, animated: true)
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+  
+
+      
     
 }
+
+protocol SendResultsDelegate {
+    func SendHandResults(WordsArray: Array<String>)
+}
+
+//extension LatingViewController: StopDelegate {
+//
+//}
+
+
+
+
 extension LatingViewController: MyCustomARViewDelegate {
     func didReturnedResponse(with confidence: Double, word: String) {
         DispatchQueue.main.async {

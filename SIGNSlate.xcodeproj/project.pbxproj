@@ -27,6 +27,7 @@
 		DA0D2D9928AF9DAB009423AF /* SIGNSlateUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0D2D9828AF9DAB009423AF /* SIGNSlateUITestsLaunchTests.swift */; };
 		DA0D2DA928B26D64009423AF /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0D2DA828B26D64009423AF /* MenuViewController.swift */; };
 		DA0D2DAB28B26DA3009423AF /* LatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0D2DAA28B26DA3009423AF /* LatingViewController.swift */; };
+		DA7DC0AC28E882DD000C51D3 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7DC0AB28E882DC000C51D3 /* ResultsViewController.swift */; };
 		DAC6B9C728D308A100CD5ED5 /* newhandaction 1.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = DAC6B9C628D308A100CD5ED5 /* newhandaction 1.mlmodel */; };
 /* End PBXBuildFile section */
 
@@ -72,6 +73,7 @@
 		DA0D2D9828AF9DAB009423AF /* SIGNSlateUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SIGNSlateUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		DA0D2DA828B26D64009423AF /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MenuViewController.swift; path = "Design Files/MenuViewController.swift"; sourceTree = "<group>"; };
 		DA0D2DAA28B26DA3009423AF /* LatingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatingViewController.swift; sourceTree = "<group>"; };
+		DA7DC0AB28E882DC000C51D3 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		DAC6B9C628D308A100CD5ED5 /* newhandaction 1.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "newhandaction 1.mlmodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -165,6 +167,7 @@
 				DA0D2D7628AF9DA6009423AF /* ViewController.swift */,
 				DA0D2DA828B26D64009423AF /* MenuViewController.swift */,
 				DA0D2DAA28B26DA3009423AF /* LatingViewController.swift */,
+				DA7DC0AB28E882DC000C51D3 /* ResultsViewController.swift */,
 				1630E29728E4515100C98FFA /* Extensions */,
 				1630E29628E44C2200C98FFA /* ModelFiles */,
 				16E5A2D128DDCFF100D8FA3A /* AVVisionClasses */,
@@ -341,6 +344,7 @@
 				DA0D2DAB28B26DA3009423AF /* LatingViewController.swift in Sources */,
 				DAC6B9C728D308A100CD5ED5 /* newhandaction 1.mlmodel in Sources */,
 				16E5A2D728DDCFF900D8FA3A /* VCHandpose.swift in Sources */,
+				DA7DC0AC28E882DD000C51D3 /* ResultsViewController.swift in Sources */,
 				16E5A2D628DDCFF900D8FA3A /* VCSetupSession.swift in Sources */,
 				DA0D2DA928B26D64009423AF /* MenuViewController.swift in Sources */,
 				DA0D2D7728AF9DA6009423AF /* ViewController.swift in Sources */,
