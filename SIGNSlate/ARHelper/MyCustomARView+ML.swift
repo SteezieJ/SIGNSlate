@@ -1,9 +1,8 @@
-//
+//ARKit Version...
 //  MyCustomARView+ML.swift
 //  SIGNSlate
 //
-//  Created by Sanjay Thakkar on 09/09/2022.
-//
+//  Created by Stephanie Joubert on 09/09/2022.
 
 
 import Vision
