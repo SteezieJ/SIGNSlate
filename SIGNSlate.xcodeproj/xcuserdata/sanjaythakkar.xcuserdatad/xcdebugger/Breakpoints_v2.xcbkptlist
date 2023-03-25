@@ -87,15 +87,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D5192300-F66E-47DA-A167-C932EC253B55"
+            uuid = "86CCBF0B-6BCE-4EF7-815D-A1EE82C4ACDB"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SIGNSlate/AVVisionClasses/VCHandpose.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
             landmarkName = "captureOutput(_:didOutput:from:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -103,32 +103,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F09B1ACB-B0A7-4995-A46E-D873BEC60ABC"
+            uuid = "2B627567-73A8-4905-B6E2-90BFD99FD55E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SIGNSlate/AVVisionClasses/VCHandpose.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "captureOutput(_:didOutput:from:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "46972180-2F5A-4381-B5F2-A645B30698B6"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SIGNSlate/AVVisionClasses/VCHandpose.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "180"
-            endingLineNumber = "180"
-            landmarkName = "handleFaces(request:error:)"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
+            landmarkName = "processModelData(keypointsMultiArray:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -23,20 +24,20 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WQK-kZ-aFe">
-                                <rect key="frame" x="69.666666666666671" y="488" width="250.66666666666663" height="143"/>
+                                <rect key="frame" x="69.666666666666671" y="491" width="250.66666666666663" height="143"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="143" id="MHx-r9-9HM"/>
                                 </constraints>
                                 <attributedString key="attributedText">
                                     <fragment content="signs">
                                         <attributes>
-                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <color key="NSColor" red="0.33029978089720741" green="0.3335700757575758" blue="0.3335700757575758" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <font key="NSFont" size="120" name="SavoyeLetPlain"/>
                                         </attributes>
                                     </fragment>
                                     <fragment content="late">
                                         <attributes>
-                                            <color key="NSColor" red="0.46572558386157259" green="0.35080451736131674" blue="0.21743766610272156" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            <color key="NSColor" red="0.85882353779999998" green="0.87058818339999999" blue="0.74509805439999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <font key="NSFont" size="120" name="SavoyeLetPlain"/>
                                         </attributes>
                                     </fragment>
@@ -59,7 +60,7 @@
                                 </variation>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hands2" translatesAutoresizingMaskIntoConstraints="NO" id="ynQ-Be-uaL">
-                                <rect key="frame" x="27" y="171" width="336" height="298"/>
+                                <rect key="frame" x="27" y="174" width="336" height="298"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="336" id="EJJ-AZ-nBG">
                                         <variation key="heightClass=regular-widthClass=regular" constant="600"/>

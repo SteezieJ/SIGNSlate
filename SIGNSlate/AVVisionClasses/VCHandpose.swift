@@ -2,7 +2,7 @@
 //  VCVision.swift
 //  SIGNSlate
 //
-//  Created by Sanjay Thakkar on 2022/9/23.
+//  Created by Stefanie Joubert on 2022/9/23.
 //
 
 import UIKit
@@ -12,22 +12,37 @@ import Vision
 
 extension LatingViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     
+    
+    
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
        
         let handPoseRequest1 = VNDetectHumanHandPoseRequest()
         handPoseRequest1.maximumHandCount = 2
         handPoseRequest1.revision = VNDetectHumanHandPoseRequestRevision1
+        //let model = try! VNCoreMLModel(for: handaction__1(configuration: MLModelConfiguration()).model)
+        //let request = VNCoreMLRequest(model: model)
         let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .up)
-       // let pixelBuff = CMSampleBufferGetImageBuffer(sampleBuffer)!
-        //let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuff, orientation: .up)
-       // let image = UIImage(pixelBuffer: pixelBuff)
         
+        //let pixelBuff = CMSampleBufferGetImageBuffer(sampleBuffer)!
+        //let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuff, orientation: .up)
+        //let image = UIImage(pixelBuffer: pixelBuff)!
         
         do {
             try handler.perform([handPoseRequest1])
         } catch let error {
             print(error.localizedDescription)
+        }
+        
+        if handPoseRequest1.results != nil {
+            for resultIn in  handPoseRequest1.results! {
+                arrOfMulties.append(try! resultIn.keypointsMultiArray())
+                if arrOfMulties.count == 60 {
+                    let newMulti = MLMultiArray(concatenating: arrOfMulties, axis: 0, dataType: .float32)
+                    processModelData(keypointsMultiArray: newMulti)
+                    arrOfMulties.removeFirst()
+                }
+            }
         }
         frameCounter += 1
         if frameCounter % handPosePredictionInterwal2 != 0 {
@@ -36,10 +51,6 @@ extension LatingViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
            // posesWindow.removeAll()
             return
         }
-        if let handPose = handPoseRequest1.results?.first {
-            processModelData()
-        }
-        
         guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer),
         let exifOrientation = CGImagePropertyOrientation(rawValue: exifOrientationFromDeviceOrientation()) else { return }
         var requestOptions: [VNImageOption : Any] = [:]
@@ -100,10 +111,36 @@ extension LatingViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         return exifOrientation.rawValue
     }
-    func processModelData() {
-        guard let keypointsMultiArray = try? MLMultiArray(shape:[60,3,21], dataType:MLMultiArrayDataType.float32) else {
-            fatalError("Unexpected runtime error. MLMultiArray")
+    func preprocess(image: UIImage) -> MLMultiArray? {
+            let size = CGSize(width: 720, height: 1280)
+
+        let buff =  malloc(720*1280)!
+        guard let pixels = image.resize(to: size)?.pixelData()?.map({ (Double($0) / 255.0 - 0.5) * 2 }) else {
+                return nil
+            }
+
+            guard let array = try? MLMultiArray(dataPointer: buff, shape: [60, 3, 21], dataType: .float32, strides: []) else {
+                return nil
+            }
+
+            let r = pixels.enumerated().filter { $0.offset % 4 == 0 }.map { $0.element }
+            let g = pixels.enumerated().filter { $0.offset % 4 == 1 }.map { $0.element }
+            let b = pixels.enumerated().filter { $0.offset % 4 == 2 }.map { $0.element }
+
+            let combination = r + g + b
+            for (index, element) in combination.enumerated() {
+                array[index] = NSNumber(value: element)
+            }
+
+            return array
         }
+    func processModelData(keypointsMultiArray:MLMultiArray) {
+       
+       // let keypointsMultiArray = preprocess(image: image)!
+        /*guard let keypointsMultiArray = try? MLMultiArray(shape:[60,3,21], dataType:MLMultiArrayDataType.float32) else {
+            fatalError("Unexpected runtime error. MLMultiArray")
+        }*/
+       
         // Previous Model
         /*var model: newhandaction_1
         do {
@@ -113,9 +150,11 @@ extension LatingViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         }*/
     
         // New Model
-        var model: handsonly1
+        //////  check model name? handaction__1
+        
+        var model: babymsasl
          do {
-             model = try handsonly1(configuration: MLModelConfiguration())
+             model = try babymsasl(configuration: MLModelConfiguration())
          } catch let error {
              fatalError(error.localizedDescription)
          }
@@ -151,6 +190,12 @@ extension LatingViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             print(error.localizedDescription)
         }
     }
+    func processObservations(observations:[VNClassificationObservation]) {
+        for classification in observations {
+                print(classification.identifier, // the scene label
+                      classification.confidence)
+            }
+    }
     
     func handleFaces(request: VNRequest, error: Error?) {
         DispatchQueue.main.async {
@@ -165,10 +210,14 @@ extension LatingViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                 let a = CIImage.init(cvImageBuffer: self.buffer).rotate
                 let b = a.cropImage(toFace: face)
                 let c = UIImage(ciImage: b)
-                let haha = c.pixelBuffer(width: 299, height: 299)
+//                let haha = c.pixelBuffer(width: 224, height: 224)
+                let haha = c.pixelBuffer(width: 299, height: 299)//pixelBuffer(width: 299, height: 299)
+
                 var model: EmotionClassificator
+
                  do {
                      model = try EmotionClassificator(configuration: MLModelConfiguration())
+
                  } catch let error {
                      fatalError(error.localizedDescription)
                  }
@@ -176,25 +225,18 @@ extension LatingViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                 guard let emotionresult = try? model.prediction(input: input) else{
                     fatalError()
                 }
-                /*self.angry.setProgress(Float(emotionresult.prob["Angry"]!), animated: true)
-                self.happy.setProgress(Float(emotionresult.prob["Happy"]!), animated: true)
-                self.disgust.setProgress(Float(emotionresult.prob["Disgust"]!), animated: true)
-                self.sad.setProgress(Float(emotionresult.prob["Sad"]!), animated: true)
-                self.fear.setProgress(Float(emotionresult.prob["Fear"]!), animated: true)
-                self.surprise.setProgress(Float(emotionresult.prob["Surprise"]!), animated: true)
-                self.neutral.setProgress(Float(emotionresult.prob["Neutral"]!), animated: true)*/
-                
+              
                 let confidence = emotionresult.classLabelProbs[emotionresult.classLabel]!
                 let sorted = emotionresult.classLabelProbs.keys.sorted { key1, key2 in
                     return Double(emotionresult.classLabelProbs[key1]!) > Double(emotionresult.classLabelProbs[key2]!)
                 }
-                sorted.forEach{ print("Emo : \($0) confidence \(emotionresult.classLabelProbs[$0]!)") }
-                if confidence > 0.8 {
+               // sorted.forEach{ print("Emo : \($0) confidence \(emotionresult.classLabelProbs[$0]!)") }
+                if confidence > 0.75 {
                     self.didReturnedEmoResponse(with: confidence, word: emotionresult.classLabel)
                 } else {
                     self.didReturnedEmoResponse(with: confidence, word: " ")
                 }
-                print("Latest Prediction " + emotionresult.classLabel)
+                //print("Latest Prediction " + emotionresult.classLabel)
             }
         }
     }
@@ -210,7 +252,7 @@ extension LatingViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
     }*/
     func storeObservation(_ observation: VNHumanHandPoseObservation){
-        //3.4 add into posesWindow (always use 30 frames)
+        //3.4 add into posesWindow (always use 60 frames)
         if posesWindow.count >= handPosePredictionInterwal {
             posesWindow.removeFirst()
         }
@@ -219,7 +261,7 @@ extension LatingViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func labelActionType(){
         //3.5 initialize 1. the ML model 2. to identify the actions 3. prediction result
        
-        guard let actionClassifier = try? handsonly1(configuration: MLModelConfiguration()) else {
+        guard let actionClassifier = try? babymsasl(configuration: MLModelConfiguration()) else {
             return
         }
         guard let poseMultiArray = prepareInputWithObservations(posesWindow) else {

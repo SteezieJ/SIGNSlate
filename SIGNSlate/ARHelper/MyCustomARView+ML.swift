@@ -2,7 +2,7 @@
 //  MyCustomARView+ML.swift
 //  SIGNSlate
 //
-//  Created by Sanjay Thakkar on 09/09/2022.
+//  Created by Stefanie Joubert on 09/09/2022.
 //
 
 
@@ -36,10 +36,10 @@ extension MyCustomARView: ARSessionDelegate {
         request.revision = VNDetectHumanHandPoseRequestRevision1
         return request
     }
-    var model:newhandaction_1 {
-        var model: newhandaction_1
+    var model:babymsasl {
+        var model: babymsasl
         do {
-            model = try newhandaction_1(configuration: MLModelConfiguration())
+            model = try babymsasl(configuration: MLModelConfiguration())
         } catch let error {
             fatalError(error.localizedDescription)
         }
@@ -156,7 +156,7 @@ extension MyCustomARView: ARSessionDelegate {
         //}
     }
     func storeObservation(_ observation: VNHumanHandPoseObservation){
-        //3.4 add into posesWindow (always use 30 frames)
+        //3.4 add into posesWindow (always use 60 frames)
         if posesWindow.count >= handPosePredictionInterwal {
             posesWindow.removeFirst()
         }
@@ -164,7 +164,7 @@ extension MyCustomARView: ARSessionDelegate {
     }
     func labelActionType(){
         //3.5 initialize 1. the ML model 2. to identify the actions 3. prediction result
-        guard let actionClassifier = try? handsonly1(configuration: MLModelConfiguration()) else {
+        guard let actionClassifier = try? babymsasl(configuration: MLModelConfiguration()) else {
             return
         }
         guard let poseMultiArray = prepareInputWithObservations(posesWindow) else {
