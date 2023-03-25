@@ -2,7 +2,7 @@
 //  Extensions.swift
 //  SIGNSlate
 //
-//  Created by Sanjay Thakkar on 28/09/22.
+//  Created by Stefanie Joubert on 28/09/22.
 //
 
 import Foundation
@@ -44,6 +44,61 @@ private extension UIDeviceOrientation {
         case .portraitUpsideDown: return .left
         default: return .right
         }
+    }
+}
+extension UIImage {
+
+    func resize(to newSize: CGSize) -> UIImage? {
+
+        guard self.size != newSize else { return self }
+
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+        self.draw(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height))
+
+        defer { UIGraphicsEndImageContext() }
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
+
+    func pixelBuffer() -> CVPixelBuffer? {
+
+        let width = Int(self.size.width)
+        let height = Int(self.size.height)
+
+        let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
+        var pixelBuffer: CVPixelBuffer?
+        let status = CVPixelBufferCreate(kCFAllocatorDefault, width, height, kCVPixelFormatType_32ARGB, attrs, &pixelBuffer)
+        guard status == kCVReturnSuccess else {
+            return nil
+        }
+
+        CVPixelBufferLockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
+        let pixelData = CVPixelBufferGetBaseAddress(pixelBuffer!)
+
+        let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
+        guard let context = CGContext(data: pixelData, width: width, height: height, bitsPerComponent: 8, bytesPerRow: CVPixelBufferGetBytesPerRow(pixelBuffer!), space: rgbColorSpace, bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue) else {
+            return nil
+        }
+
+        context.translateBy(x: 0, y: CGFloat(height))
+        context.scaleBy(x: 1.0, y: -1.0)
+
+        UIGraphicsPushContext(context)
+        self.draw(in: CGRect(x: 0, y: 0, width: width, height: height))
+        UIGraphicsPopContext()
+        CVPixelBufferUnlockBaseAddress(pixelBuffer!, CVPixelBufferLockFlags(rawValue: 0))
+
+        return pixelBuffer
+    }
+    func pixelData() -> [UInt8]? {
+            let dataSize = size.width * size.height * 4
+            var pixelData = [UInt8](repeating: 0, count: Int(dataSize))
+            let colorSpace = CGColorSpaceCreateDeviceRGB()
+            let context = CGContext(data: &pixelData, width: Int(size.width), height: Int(size.height), bitsPerComponent: 8, bytesPerRow: 4 * Int(size.width), space: colorSpace, bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)
+            
+            guard let cgImage = self.cgImage else { return nil }
+            context?.draw(cgImage, in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
+            
+            return pixelData
     }
 }
 

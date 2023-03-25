@@ -2,7 +2,7 @@
 //  MyCustomARView.swift
 //  SIGNSlate
 //
-//  Created by Sanjay Thakkar on 09/09/2022.
+//  Created by Stefanie Joubert on 09/09/2022.
 //
 
 
@@ -46,7 +46,4 @@ class MyCustomARView: ARView {
     @MainActor @objc required dynamic convenience init?(coder decoder: NSCoder) {
         self.init()
     }
-    
-    
-    
 }

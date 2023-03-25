@@ -2,7 +2,7 @@
 //  CameraPreaview.swift
 //  SIGNSlate
 //
-//  Created by Sanjay Thakkar on 2022/9/23.
+//  Created by Stefanie Joubert on 2022/9/23.
 //
 
 import UIKit

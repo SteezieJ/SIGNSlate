@@ -10,7 +10,10 @@ import AVKit
 import Vision
 import ARKit
 import RealityKit
-
+struct CombineModel {
+    var handPose:String?
+    var facePose:String?
+}
 class LatingViewController: UIViewController {
     
     
@@ -22,6 +25,8 @@ class LatingViewController: UIViewController {
     @IBOutlet var cameraView: CameraPreview!
     
     var handPosePredictionInterwal = 60
+    var combineWords = [CombineModel]()
+    var currentUniqID:String?
     var frameCounter: Int = 1 {
            didSet {
                // Framecounter has to be updated on the basis of interval.
@@ -38,10 +43,13 @@ class LatingViewController: UIViewController {
             sceneView.delegate = self
         }
     }
+    var currentDate:Date?
     var arrOfWords = [String]()
+    var arrOfAllHandPoses = [String]()
+    var arrOfAllFacePoses = [String]()
     var lastPredicted:String?
     @IBOutlet var currentWordText: UILabel!
-    
+    var arrOfMulties:[MLMultiArray] = []
     //    override func viewDidLoad() {
     //        super.viewDidLoad()
     //        title = "Now interpreting"
@@ -100,7 +108,7 @@ class LatingViewController: UIViewController {
     
     var faceDetectionRequest : VNDetectFaceRectanglesRequest!
     var buffer: CVPixelBuffer!
-    var devicePosition: AVCaptureDevice.Position = .back
+    var devicePosition: AVCaptureDevice.Position = .front
     // MARK: UIViewController overrides
     
     override func viewDidLoad() {
@@ -144,7 +152,17 @@ class LatingViewController: UIViewController {
     override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
         return .portrait
     }
-    
+    //MARK: -  Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "resultsView"
+        {
+            let controller = segue.destination as! ResultsViewController
+            controller.passedArrOfFacesigns = arrOfAllFacePoses
+            controller.passedArrOfHandsigns = arrOfAllHandPoses
+            controller.passedArrOfCombinedSigns = combineWords
+        }
+    }
+
     // MARK: AVCapture Setup
     
     /// - Tag: CreateCaptureSession
@@ -374,7 +392,7 @@ class LatingViewController: UIViewController {
         
         
         // Start with detection.  Find face, then track it.
-        self.detectionRequests = [faceDetectionRequest]
+        //self.detectionRequests = [faceDetectionRequest]
         
         self.sequenceRequestHandler = VNSequenceRequestHandler()
         
@@ -510,161 +528,47 @@ class LatingViewController: UIViewController {
         CATransaction.commit()
     }
     
-    // MARK: AVCaptureVideoDataOutputSampleBufferDelegate
-    /// - Tag: PerformRequests
-    // Handle delegate method callback on receiving a sample buffer.
-//    public func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-//
-//        var requestHandlerOptions: [VNImageOption: AnyObject] = [:]
-//
-//        let cameraIntrinsicData = CMGetAttachment(sampleBuffer, key: kCMSampleBufferAttachmentKey_CameraIntrinsicMatrix, attachmentModeOut: nil)
-//        if cameraIntrinsicData != nil {
-//            requestHandlerOptions[VNImageOption.cameraIntrinsics] = cameraIntrinsicData
-//        }
-//
-//        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-//            print("Failed to obtain a CVPixelBuffer for the current output frame.")
-//            return
-//        }
-//
-//        let exifOrientation = self.exifOrientationForCurrentDeviceOrientation()
-//
-//        guard let requests = self.trackingRequests, !requests.isEmpty else {
-//            // No tracking object detected, so perform initial detection
-//            let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer,
-//                                                            orientation: exifOrientation,
-//                                                            options: requestHandlerOptions)
-//
-//            do {
-//                guard let detectRequests = self.detectionRequests else {
-//                    return
-//                }
-//                try imageRequestHandler.perform(detectRequests)
-//            } catch let error as NSError {
-//                NSLog("Failed to perform FaceRectangleRequest: %@", error)
-//            }
-//            return
-//        }
-//
-//        do {
-//            try self.sequenceRequestHandler.perform(requests,
-//                                                    on: pixelBuffer,
-//                                                    orientation: exifOrientation)
-//        } catch let error as NSError {
-//            NSLog("Failed to perform SequenceRequest: %@", error)
-//        }
-//
-//        // Setup the next round of tracking.
-//        var newTrackingRequests = [VNTrackObjectRequest]()
-//        for trackingRequest in requests {
-//
-//            guard let results = trackingRequest.results else {
-//                return
-//            }
-//
-//            guard let observation = results[0] as? VNDetectedObjectObservation else {
-//                return
-//            }
-//
-//            if !trackingRequest.isLastFrame {
-//                if observation.confidence > 0.3 {
-//                    trackingRequest.inputObservation = observation
-//                } else {
-//                    trackingRequest.isLastFrame = true
-//                }
-//                newTrackingRequests.append(trackingRequest)
-//            }
-//        }
-//        self.trackingRequests = newTrackingRequests
-//
-//        if newTrackingRequests.isEmpty {
-//            // Nothing to track, so abort.
-//            return
-//        }
-//
-//        // Perform face landmark tracking on detected faces.
-//        var faceLandmarkRequests = [VNDetectFaceLandmarksRequest]()
-//
-//        // Perform landmark detection on tracked faces.
-//        for trackingRequest in newTrackingRequests {
-//
-//            let faceLandmarksRequest = VNDetectFaceLandmarksRequest(completionHandler: { (request, error) in
-//
-//                if error != nil {
-//                    print("FaceLandmarks error: \(String(describing: error)).")
-//                }
-//
-//                guard let landmarksRequest = request as? VNDetectFaceLandmarksRequest,
-//                      let results = landmarksRequest.results as? [VNFaceObservation] else {
-//                    return
-//                }
-//
-//                // Perform all UI updates (drawing) on the main queue, not the background queue on which this handler is being called.
-//                DispatchQueue.main.async {
-//                    self.drawFaceObservations(results)
-//                }
-//            })
-//
-//            guard let trackingResults = trackingRequest.results else {
-//                return
-//            }
-//
-//            guard let observation = trackingResults[0] as? VNDetectedObjectObservation else {
-//                return
-//            }
-//            let faceObservation = VNFaceObservation(boundingBox: observation.boundingBox)
-//            faceLandmarksRequest.inputFaceObservations = [faceObservation]
-//
-//            // Continue to track detected facial landmarks.
-//            faceLandmarkRequests.append(faceLandmarksRequest)
-//
-//            let imageRequestHandler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer,
-//                                                            orientation: exifOrientation,
-//                                                            options: requestHandlerOptions)
-//
-//            do {
-//                try imageRequestHandler.perform(faceLandmarkRequests)
-//            } catch let error as NSError {
-//                NSLog("Failed to perform FaceLandmarkRequest: %@", error)
-//            }
-//        }
-//    }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //    }
 
     
     var delegate: SendResultsDelegate?
     
+    @IBAction func cameraRotate(_ sender: Any) {
+        updateCamera()
+    }
     
     @IBAction func stopPressed(_ sender: Any) {
+        
+        self.performSegue(withIdentifier: "resultsView", sender: nil)
+        /*let resstring: String = arrOfWords.joined(separator: " ")
         print("Stop interpreting...")
-//        delegate?.SendHandResults(WordsArray: self.arrOfWords)
-//        print("del", self.arrOfWords.joined())
+        print("del", resstring)
+        delegate?.SendHandResults(text: "pizza")//WordsArray: self.arrOfWords*/
+       
 //        guard let vc = storyboard?.instantiateViewController(withIdentifier: "Resultsboard") as? ResultsViewController else {
 //            print("unable to get storyboard")
 //            return
 //        }
+//        vc.textstring = resstring
 //        present(vc, animated: true)
-    }
+//    }
   
+    
+    
+//     func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+//       if segue.identifier == "ResultsBoard" {
+//           let vc = segue.destination as! ResultsViewController
+//           vc.textstring = "pizza"
+//       }
+    }
 
       
     
 }
 
-protocol SendResultsDelegate {
-    func SendHandResults(WordsArray: Array<String>)
+protocol SendResultsDelegate : AnyObject { //Anyobject
+    func SendHandResults(text: String?)
 }
 
 //extension LatingViewController: StopDelegate {
@@ -677,23 +581,31 @@ protocol SendResultsDelegate {
 extension LatingViewController: MyCustomARViewDelegate {
     func didReturnedResponse(with confidence: Double, word: String) {
         DispatchQueue.main.async {
-            //if (self.lastPredicted ?? "") != word {
+            if (self.lastPredicted ?? "") != word {
+                self.currentDate = Date()
                 self.lastPredicted = word
+                if self.arrOfWords.count == 10 {
+                    self.arrOfWords.removeFirst()
+                }
                 self.arrOfWords.append(word)
                 self.displayText.text = self.arrOfWords.joined(separator: " ")
-                self.currentWordText.text = word//String.init(format: "%0.1f", confidence)
-                if self.arrOfWords.count == 10 {
-                    self.arrOfWords.removeAll()
-                }
-            /*} else {
-                print("Repeated Prediction Skipping --" + word)
-                self.currentWordText.text = word
-            }*/
+                self.arrOfAllHandPoses.append(word)
+                self.delegate?.SendHandResults(text: self.arrOfWords.joined(separator: " "))
+            }
+            self.currentWordText.text = word
         }
     }
     func didReturnedEmoResponse(with confidence: Double, word: String) {
         DispatchQueue.main.async {
+            
+            if word != "" {
+                if let date = self.currentDate, (Date().timeIntervalSince(date) * 1000) < 250 {
+                    let model = CombineModel(handPose: self.lastPredicted, facePose: word)
+                    self.combineWords.append(model)
+                }
+                self.arrOfAllFacePoses.append(word)
                 self.emoText.text = word
+            }
         }
     }
 }

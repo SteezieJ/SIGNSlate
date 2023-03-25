@@ -2,7 +2,7 @@
 //  VCSetupSession.swift
 //  SIGNSlate
 //
-//  Created by Sanjay Thakkar on 2022/9/23.
+//  Created by Stefanie Joubert on 2022/9/23.
 //
 
 import UIKit
@@ -13,7 +13,8 @@ extension LatingViewController {
     
     public func setupAVSession() throws {
         
-        guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
+        //setup front and back for ratations
+        guard let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: devicePosition) else {
             throw AppError.captureSessionSetup(
                   reason: "Could not find a front facing camera."
                 )
@@ -51,6 +52,22 @@ extension LatingViewController {
         }
         session.commitConfiguration()
         captureSession = session
+    }
+    func updateCamera() {
+        captureSession?.stopRunning()
+        if devicePosition == .back {
+            devicePosition = .front
+        } else {
+            devicePosition = .back
+        }
+        do {
+            try setupAVSession()
+        } catch {
+            print(error.localizedDescription)
+        }
+        cameraView.previewLayer.session = captureSession
+        cameraView.previewLayer.videoGravity = .resizeAspectFill
+        captureSession?.startRunning()
     }
 }
 enum AppError: Error {
