@@ -7,18 +7,20 @@ Signslate is an app that aims to increase awareness through creating an interfac
 
 The system identifies and tracks hand and face regions for subsequent feature extraction. The key points are fed to machine learning models to determine the predicted sign labels. The user can view the results from the session in a final results page.
 
-<p align="center">
 ![implementation](images/design.gif)
-  </p>
+
 
 ## Sign Language key factors
-Hand signs can be identified with these main characteristics
+Hand signs can be identified through characteristics such as the image showing the shape of the hand. Other importatnt parameters are:
 
 * Hand shape
 * Palm orientation
 * Hand location
 * Hand movement
 * Non-Manual Features
+
+
+
 ![Hand shape chart](images/shape.png)
 
 
