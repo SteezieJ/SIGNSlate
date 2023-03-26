@@ -30,6 +30,10 @@ NMF refer to expression excluding hands such movement in the body, eyebrows, eye
 ## How does is work?
 The system uses two seperate methods from the same live feed to extract the correct data for the two seperate ML models. The signs are recorded into an array with the appended emotion that was present during the sign. This is then used to determine a final result.
 
+![NMF](images/process.png)
+
+![NMF](images/effect.png)
+
 ### The hand signs
 The hand gestures are extracted by recording the 21 points on each hand relating to a joint. This allows for a dataset of the 21 points on the hand, for three co-ordinates, over a period of two seconds. This translation or hand movement, is classified using a SVM trained from the open source MS-ASL dataset after being cleaned. In case not all gestures are two seconds long meaning they can get cut off or already think it is classifying the next sign, a sliding window is used. This makes multiple classifications in the two second period and only uses a dominant average result. 
 
