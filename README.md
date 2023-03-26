@@ -1,5 +1,4 @@
-# SIGNSlate: ASL translation app
-### American Sign Language interpration swift IOS app using coreML for hand action and face expression classification.
+## American Sign Language interpration swift IOS app using coreML for hand action and face expression classification.
 
 This app receives a live input from the users camera. The video feed is used to identify and track the user's hands and face regions. The movement of the hand and the expression of the face, are classified to display the result back to the user. 
 
