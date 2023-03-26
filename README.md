@@ -12,11 +12,11 @@ The system identifies and tracks hand and face regions for subsequent feature ex
 ## Sign Language key factors
 Hand signs can be identified with these main characteristics
 
-Hand shape
-Palm orientation
-Hand location
-Hand movement
-Non-Manual Features
+* Hand shape
+* Palm orientation
+* Hand location
+* Hand movement
+* Non-Manual Features
 ![Hand shape chart](images/shape.png)
 
 
