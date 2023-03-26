@@ -17,9 +17,15 @@ Palm orientation
 Hand location
 Hand movement
 Non-Manual Features
+![Hand shape chart](images/shape.png)
+
 
 ### Non-Manual Features explained
-NMF refer to expression excluding hands such movement in the body, eyebrows, eyes ,head tilts, rolls, shakes and nods and facial expressions. Each of these features can have a profound effect on the meaning of a sign either by adding emphasis, elaborating the meaning or even completely changing the meaning.
+NMF refer to expression excluding hands such movement in the body, eyebrows, eyes ,head tilts, rolls, shakes and nods and facial expressions. Each of these features can have a profound effect on the meaning of a sign either by adding emphasis, elaborating the meaning or even completely changing the meaning. Facial markers for CHA and OO as in the image indicate if an object is small or large when accompanying a noun. Similarly, if furrowed eyebrows or raised eyebrows it can implicate a question marker, changing the meaning of the sentence. In this case an expression approach used by using a surprised or angry expression.  
+
+![NMF](images/cha.png)
+
+
 
 ## How does is work?
 The system uses two seperate methods from the same live feed to extract the correct data for the two seperate ML models. The signs are recorded into an array with the appended emotion that was present during the sign. This is then used to determine a final result.
@@ -27,8 +33,17 @@ The system uses two seperate methods from the same live feed to extract the corr
 ### The hand signs
 The hand gestures are extracted by recording the 21 points on each hand relating to a joint. This allows for a dataset of the 21 points on the hand, for three co-ordinates, over a period of two seconds. This translation or hand movement, is classified using a SVM trained from the open source MS-ASL dataset after being cleaned. In case not all gestures are two seconds long meaning they can get cut off or already think it is classifying the next sign, a sliding window is used. This makes multiple classifications in the two second period and only uses a dominant average result. 
 
+![NMF](images/joints.png)
+
+
 ### The facial expression recognition
 The Facial expression model is a well performing dataset known as CK+ and was trained with Convolutional Neural Networks. This model receives a 2D image of the face in a frame to predict the expression. The facial expression is only recorded if it is present on a sign classification. 
 
+
+![NMF](images/cnn.png)
+
+
 ## Results
 The labels of the classified sign and expression are saved to determine if the non-manual feature has an effect on the meaning of the sign. 
+
+
