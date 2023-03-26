@@ -1,7 +1,7 @@
 # SIGNSlate: ASL translation app
-American Sign Language interpration swift IOS app using coreML for hand action and face expression classification.
+### American Sign Language interpration swift IOS app using coreML for hand action and face expression classification.
 
-This app receives a live input from the users camera. The video feed is used to identify and track the user's hands and face regions. The movement of the hand and the expression of the face is classified and the result displayed to the user. 
+This app receives a live input from the users camera. The video feed is used to identify and track the user's hands and face regions. The movement of the hand and the expression of the face, are classified to display the result back to the user. 
 
 Signslate is an app that aims to increase awareness through creating an interface between the hearing and Deaf communities. Sign language has many complexities and intricacies that are missed if only static hand poses are considered. This system incorporates static and dynamic hand gestures, as well as the users facial expressions to achieve a more accurate translation. 
 
@@ -47,6 +47,9 @@ The Facial expression model is a well performing dataset known as CK+ and was tr
 
 
 ## Results
-The labels of the classified sign and expression are saved to determine if the non-manual feature has an effect on the meaning of the sign. 
+The labels of the classified sign and appended expression are saved to determine if the non-manual feature has an effect on the meaning of the sign. The results below show on the left how the regions are tracked, in the center it shows the current sign being made as "book" with no attatched emotion, followed by the final results. Here the impact of the Non-Manual Features can clearly be seen. The surprised expression together with book, an object, will indicate the book is large, as displayed "massive book". Similarly, the angry expression is required with the what sign for it to be valid in the final line, else it carries no question value and is not picked up as a valid sign.
+
+![NMF](images/results.gif)
+
 
 
