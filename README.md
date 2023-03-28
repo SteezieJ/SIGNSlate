@@ -1,6 +1,6 @@
 ## American Sign Language interpration swift IOS app using coreML for hand action and face expression classification.
 
-This app receives a live input from the users camera. The video feed is used to identify and track the user's hands and face regions. The movement of the hand and the expression of the face, are classified to display the result back to the user. 
+This app receives a live input from the user's camera. The video feed is used to identify and track the user's hands and face regions. The movement of the hand and the expression of the face, are classified to display the result back to the user. 
 
 Signslate is an app that aims to increase awareness through creating an interface between the hearing and Deaf communities. Sign language has many complexities and intricacies that are missed if only static hand poses are considered. This system incorporates static and dynamic hand gestures, as well as the users facial expressions to achieve a more accurate translation. 
 
@@ -10,7 +10,7 @@ The system identifies and tracks hand and face regions for subsequent feature ex
 
 
 ## Sign Language key factors
-Hand signs can be identified through characteristics such as the image showing the shape of the hand. Other importatnt parameters are:
+Hand signs can be identified through characteristics such as the image showing the shape of the hand. Other important parameters are:
 
 * Hand shape
 * Palm orientation
@@ -24,7 +24,7 @@ Hand signs can be identified through characteristics such as the image showing t
 
 
 ### Non-Manual Features explained
-NMF refer to expression excluding hands such movement in the body, eyebrows, eyes ,head tilts, rolls, shakes and nods and facial expressions. Each of these features can have a profound effect on the meaning of a sign either by adding emphasis, elaborating the meaning or even completely changing the meaning. Facial markers for CHA and OO as in the image indicate if an object is small or large when accompanying a noun. Similarly, if furrowed eyebrows or raised eyebrows it can implicate a question marker, changing the meaning of the sentence. In this case an expression approach used by using a surprised or angry expression.  
+NMF refers valuable body language, excluding the hands. This includes movement in the body, eyebrows, eyes, head tilts, rolls, shakes and nods and facial expressions. Each of these features can have a profound effect on the meaning of a sign either by adding emphasis, elaborating the meaning or even completely changing the meaning. Facial markers for CHA and OO as in the image indicate if an object is small or large when accompanying a noun. Similarly, if furrowed eyebrows or raised eyebrows it can implicate a question marker, changing the meaning of the sentence. In this case an expression approach used by using a surprised or angry expression.  
 
 ![NMF](images/cha.png)
 
@@ -39,11 +39,11 @@ The system uses two seperate methods from the same live feed to extract the corr
 ### The hand signs
 The hand gestures are extracted by recording the 21 points on each hand relating to a joint. This allows for a dataset of the 21 points on the hand, for three co-ordinates, over a period of two seconds. This translation or hand movement, is classified using a SVM trained from the open source MS-ASL dataset after being cleaned. In case not all gestures are two seconds long meaning they can get cut off or already think it is classifying the next sign, a sliding window is used. This makes multiple classifications in the two second period and only uses a dominant average result. 
 
-![joints](images/joints.png)
+![joints](images/handjoints.png)
 
 
 ### The facial expression recognition
-The Facial expression model is a well performing dataset known as CK+ and was trained with Convolutional Neural Networks. This model receives a 2D image of the face in a frame to predict the expression. The facial expression is only recorded if it is present on a sign classification. 
+The Facial expression model is a well performing dataset known as CK+ and was trained with a Convolutional Neural Network. This model receives a 2D image of the face in a frame to predict the expression. The facial expression is only recorded if it is present on a sign classification. 
 
 
 ![CNN model](images/cnn.png)
